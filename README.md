@@ -1,46 +1,44 @@
 # CodeHost
 
-A production-ready Code Hosting & Deployment Platform powered by Cloudflare Workers, Hono, R2, and D1.
+A production-oriented Code Hosting & Deployment Platform powered by Cloudflare Workers, Hono, R2, and D1.
 
 ## Features
-- **Instant Hosting**: Upload HTML/CSS/JS and get a live link.
-- **Embedded Previews**: Use `<script>` or `<iframe>` to embed code on any site.
-- **Sandboxed**: Previews are isolated for security.
-- **D1 Analytics**: View counts for every project.
-- **Public Gallery**: Discover and fork community snippets.
+- Instant HTML/CSS/JS hosting with live previews
+- Embeddable previews via script or iframe
+- Sandboxed rendering with hardened CSP
+- D1 analytics (view counts)
+- Public gallery
+- JWT authentication with secure password hashing
 
-## Setup Instructions
+## Setup
 
-### 1. Create Cloudflare Resources
-You need a D1 database and an R2 bucket.
-
+1. Create resources:
 ```bash
-# Create D1 Database
 npx wrangler d1 create codehost-db
-
-# Create R2 Bucket
 npx wrangler r2 bucket create codehost-files
 ```
 
-### 2. Configure `wrangler.toml`
-Update your `wrangler.toml` with the `database_id` from the D1 creation step.
+2. Update `wrangler.toml` with the real `database_id` and a strong `JWT_SECRET` (32+ random chars).
 
-### 3. Initialize Database
-Run the schema against your D1 database:
-
+3. Apply schema:
 ```bash
 npx wrangler d1 execute codehost-db --file=./schema.sql
 ```
 
-### 4. Deploy
+4. Deploy:
 ```bash
 npm install
 npm run deploy
 ```
 
 ## Project Structure
-- `src/index.ts`: Hono API (Backend)
-- `src/frontend/`: React Dashboard (Frontend)
-- `schema.sql`: Database definitions
-- `wrangler.toml`: Cloudflare configuration
-# codehost
+- `src/index.ts` – Hono API (auth, projects, previews, embeds)
+- `src/frontend/` – React dashboard (requires Vite build for production)
+- `schema.sql` – Database definitions
+- `wrangler.toml` – Cloudflare configuration
+
+## Production Notes
+- Frontend currently loads raw TSX; add a Vite build step and serve static assets for production.
+- Replace in-memory rate limit with a Durable Object for multi-instance deployments.
+- Tighten CORS origins.
+- Consider adding file size/type allowlists and malware scanning for user uploads.
