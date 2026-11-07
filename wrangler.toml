@@ -1,6 +1,11 @@
 name = "codehost"
 main = "src/index.ts"
-compatibility_date = "2024-09-23"
+compatibility_date = "2024-11-01"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
 
 [[d1_databases]]
 binding = "DB"
@@ -11,8 +16,21 @@ database_id = "REPLACE_WITH_REAL_D1_ID"
 binding = "BUCKET"
 bucket_name = "codehost-files"
 
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_REAL_KV_ID"
+
+[ai]
+binding = "AI"
+
+[[durable_objects.bindings]]
+name = "RATE_LIMITER"
+class_name = "RateLimiter"
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RateLimiter"]
+
 [vars]
 JWT_SECRET = "REPLACE_WITH_LONG_RANDOM_SECRET_AT_LEAST_32_CHARS"
-
-[observability]
-enabled = true
+ALLOWED_ORIGINS = "http://localhost:5173,https://your-domain.com"

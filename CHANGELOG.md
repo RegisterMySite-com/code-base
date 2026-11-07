@@ -1,22 +1,20 @@
 # Changelog
 
-## [0.2.0] - 2026-11-07
+## [0.3.0] - 2026-11-07
+### Added
+- Vite build pipeline for production frontend (static assets served via Workers Assets).
+- Real authenticated Dashboard showing user's projects and view counts.
+- Durable Object rate limiter (replaces in-memory).
+- KV cache for public gallery.
+- Workers AI integration for malware/content scanning and AI chat assistant (inspired by llm-chat-app-template).
+- File type allowlist and size limits.
+- Tightened CORS via ALLOWED_ORIGINS.
+- Full auth flow in UI (signup/login/logout).
+
 ### Security
-- Replaced insecure `btoa` password storage with PBKDF2 (100k iterations) via Web Crypto.
-- Added real JWT authentication (signup + login) using `jose`.
-- Added Zod input validation on all write endpoints.
-- Added basic rate limiting.
-- Hardened Content-Security-Policy and security headers on previews.
-- Path traversal protection on uploaded files.
-- Restricted CORS (still needs domain tightening).
+- Content scanning with heuristics + AI.
+- Path traversal protection.
+- Hardened CSP on previews.
 
-### Database
-- Added indexes on users.email, projects.owner_id, projects.is_public, and project_files.project_id.
-- Added CHECK constraint on project type and ON DELETE CASCADE.
-
-### Other
-- Added login endpoint.
-- Improved error responses.
-- Version bump and production readiness improvements.
-
-## [0.1.0] - Initial prototype
+## [0.2.0] - 2026-11-07
+Previous security and schema improvements.
